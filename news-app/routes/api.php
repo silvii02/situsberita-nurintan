@@ -18,6 +18,7 @@ use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Auth\GoogleController;
 use Google\Client as Google_Client;
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\Api\CommentReportController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
@@ -85,6 +86,9 @@ Route::get('/articleSlider', [SliderHeadlineController::class, 'getSliderArticle
 Route::get('categories', function() {
     return Category::all(); 
 });
+Route::get('/ads', [AdController::class, 'index']);
+Route::post('/ads', [AdController::class, 'store']);
+Route::delete('/ads/{id}', [AdController::class, 'destroy']);
 
 
 // ini utk bikin artikel terkait
@@ -112,6 +116,8 @@ Route::delete('/commentsreport/{id}', [CommentReportController::class, 'destroy'
 Route::put('/commentsreport/{id}', [CommentReportController::class, 'update']);
 Route::get('/commentsreport/unread-count', [CommentReportController::class, 'unreadCount']);
 Route::post('/commentsreport/mark-all-read', [CommentReportController::class, 'markAllAsRead']);
+Route::get('/commentsreport/unread', [CommentController::class, 'getUnreadComments']);
+Route::post('/commentsreport/mark-all-read', [CommentController::class, 'markAllRead']);
 
 Route::get('/storage/images/{filename}', [ImageController::class, 'show']);
 

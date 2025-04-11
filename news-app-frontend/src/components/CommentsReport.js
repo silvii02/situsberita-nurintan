@@ -128,12 +128,13 @@ const CommentsReport = () => {
                                 <td className="table-cell">{comment.body}</td>
                                 <td className="table-cell">{comment.article?.title || 'Artikel tidak ditemukan'}</td>
                                 <td className="table-actions">
-                <button className="btn-edit-commentreport" onClick={() => handleEdit(comment)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button className="btn-delete-commentreport" onClick={() => handleDelete(comment.id)}>
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                </button>
+                                <button className="btn-edit-commentreport" onClick={() => handleEdit(comment)}>
+                            Ubah
+                        </button>
+                        <button className="btn-delete-commentreport" onClick={() => handleDelete(comment.id)}>
+                            Hapus
+                        </button>
+
             </td>
 
 

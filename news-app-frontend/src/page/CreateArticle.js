@@ -150,10 +150,10 @@ const sanitizeHTML = (input) => {
     })
     .then(response => {
       Swal.fire({
-        title: 'Success!',
+        title: 'Sukses!',
         text: 'Artikel berhasil disimpan!',
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OKE'
       }).then(() => navigate('/dashboard'));
     })
     .catch(error => {

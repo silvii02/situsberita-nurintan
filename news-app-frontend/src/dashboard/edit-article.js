@@ -6,6 +6,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import configUrl from '../configUrl';
 import { IoMdCreate } from "react-icons/io";
 import { FaSave, FaUndo } from "react-icons/fa";
+import Swal from 'sweetalert2';
 import SidebarDashboard from '../components/SidebarDashboard'; 
 import ReloadButton from '../components/ReloadBtn';
 
@@ -154,10 +155,22 @@ const EditArticle = () => {
         },
       });
 
-      navigate(`/dashboard`);
+      Swal.fire({
+        title: "Artikel Berhasil Disimpan!",
+        icon: "success",
+        draggable: true
+      }).then(() => {
+        navigate(`/dashboard`);
+      });
 
     } catch (error) {
       console.error('Error updating article:', error.response?.data || error.message);
+  
+      Swal.fire({
+        title: "Gagal Menyimpan Artikel",
+        text: error.response?.data?.message || "Terjadi kesalahan.",
+        icon: "error",
+      });
     }
   };
 
@@ -286,7 +299,7 @@ const EditArticle = () => {
     <FaUndo style={{ marginRight: "5px" }} /> Batalkan
   </button>
   <button className="save-button" type="submit">
-    <FaSave style={{ marginRight: "5px" }} /> Update Article
+    <FaSave style={{ marginRight: "5px" }} /> Simpan Artikel
   </button>
 </div>
 

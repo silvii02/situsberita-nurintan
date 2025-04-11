@@ -25,32 +25,32 @@ class CategoryController extends Controller
             }
 
             public function destroy($id)
-{
-    // Start a transaction
-    DB::beginTransaction();
-
-    try {
-        // Find the category
-        $category = Category::findOrFail($id);
-
-        // If you have a relationship, delete related records first
-        // For example, if you have a Post model that references Category
-        // Post::where('category_id', $id)->delete();
-
-        // Delete the category
-        $category->delete();
-
-        // Commit the transaction
-        DB::commit();
-        
-        return response()->json(['message' => 'Category deleted successfully.'], 200);
-    } catch (\Exception $e) {
-        // Rollback the transaction if something goes wrong
-        DB::rollBack();
-        
-        return response()->json(['error' => 'Failed to delete category: ' . $e->getMessage()], 500);
-    }
-}
+            {
+                // Start a transaction
+                DB::beginTransaction();
+            
+                try {
+                    // Find the category
+                    $category = Category::findOrFail($id);
+                
+                    // If you have a relationship, delete related records first
+                    // For example, if you have a Post model that references Category
+                    // Post::where('category_id', $id)->delete();
+                
+                    // Delete the category
+                    $category->delete();
+                
+                    // Commit the transaction
+                    DB::commit();
+                    
+                    return response()->json(['message' => 'Category deleted successfully.'], 200);
+                } catch (\Exception $e) {
+                    // Rollback the transaction if something goes wrong
+                    DB::rollBack();
+                    
+                    return response()->json(['error' => 'Failed to delete category: ' . $e->getMessage()], 500);
+                }
+            }
 
 public function update(Request $request, $id)
 {

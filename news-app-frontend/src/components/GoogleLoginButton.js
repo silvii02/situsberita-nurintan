@@ -3,6 +3,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useAuth } from '../utils/AuthContext';
 import configUrl from '../configUrl';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const GoogleLoginButton = () => {
@@ -30,6 +31,13 @@ const GoogleLoginButton = () => {
 
             localStorage.setItem('token', token);
             localStorage.setItem('userid', JSON.stringify(user));
+
+            Swal.fire({
+                title: "Login Berhasil!",
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
 
             login();
             navigate('/indexdashboard');

@@ -31,24 +31,6 @@ const IndexDashboard = () => {
         fetchArticles();
     }, [navigate]);
 
-    useEffect(() => {
-        const fetchUserRole = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            try {
-                console.log("Fetching user data...");
-                const response = await axiosInstance.get(`/user`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                console.log("User data fetched:", response.data);
-                setUserData(response.data);
-            } catch (error) {
-                console.error("Error fetching user data:", error.response?.data || error.message);
-                navigate("/indexdashboard");
-            }
-        };
-        fetchUserRole();
-    }, [navigate]);
 
     return (
         <div className="dashboard-container">
@@ -56,10 +38,6 @@ const IndexDashboard = () => {
             <div className="dashboard-content"> {/* Wrapper untuk konten dashboard */}
                 <ChartArticlesPopular />
                 {/* Tambahkan Form CreateAdmin */}
-                <div style={{ marginTop: '20px' }}>
-                    <h2>Buat Admin Baru</h2>
-                    <CreateAdmin user={userData} />
-                </div>
             </div>
         </div>
     );

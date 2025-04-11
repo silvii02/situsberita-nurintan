@@ -40,5 +40,14 @@ class CommentController extends Controller
             return response()->json(['message' => 'Internal server error'], 500);
         }
     }
+    public function getUnreadComments() {
+        $unreadComments = Comment::where('is_read', false)->get();
+        return response()->json($unreadComments);
+    }
+    
+    public function markAllRead() {
+        Comment::where('is_read', false)->update(['is_read' => true]);
+        return response()->json(['message' => 'Semua komentar telah ditandai sebagai dibaca']);
+    }
 
 }

@@ -16,7 +16,8 @@ const ArticleDetail = () => {
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [newComment, setNewComment] = useState({});
   const [comments, setComments] = useState([]);
-  
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const synth = window.speechSynthesis;
 
   const [likeCount, setLikeCount] = useState(0);
 
@@ -107,6 +108,36 @@ const ArticleDetail = () => {
     document.title = 'Situs Berita - situsintan.org';
   };
   }, [id]);
+
+  const handleTextToSpeech = () => {
+    if (isSpeaking) {
+      synth.cancel();
+      setIsSpeaking(false);
+    } else {
+      if (article && article.body) {
+        synth.cancel(); // Pastikan antrian kosong sebelum memulai suara baru
+  
+        // Menambahkan suara untuk judul artikel
+        const titleUtterance = new SpeechSynthesisUtterance(`Artikel dengan judul: ${article.title}`);
+        titleUtterance.lang = 'id-ID';
+        titleUtterance.rate = 1.1; // Tambah kecepatan agar tidak lambat
+  
+        // Menambahkan suara untuk isi artikel
+        const bodyUtterance = new SpeechSynthesisUtterance(article.body);
+        bodyUtterance.lang = 'id-ID';
+        bodyUtterance.rate = 1.1;
+  
+        // Tentukan apa yang terjadi setelah suara selesai
+        titleUtterance.onend = () => {
+          synth.speak(bodyUtterance); // Mulai suara artikel setelah judul selesai
+        };
+  
+        synth.speak(titleUtterance); // Mulai suara judul artikel
+        setIsSpeaking(true);
+      }
+    }
+  };
+  
 
   const handleSubmitComent = async (e) => {
     e.preventDefault();
@@ -205,7 +236,6 @@ const ArticleDetail = () => {
           Penulis: <span className="author-name">{article.author_name}</span>
         </p>
     
-        {/* Gambar Artikel */}
         <div style={{position:'relative'}}>
         <img src={imageUrl} alt={article.title} className="article-image-full" />
         <div className='logo-thumbnail'></div>
@@ -233,7 +263,9 @@ const ArticleDetail = () => {
          )}
         </div>
 
-    
+        <button onClick={handleTextToSpeech} className="tts-button">
+          {isSpeaking ? '🔇 Berhenti' : '🔊 Dengarkan Artikel'}
+        </button>
         {/* Footer Artikel */}
         {/* Footer Artikel */}
 <div className='footer-detail-artikel'>
@@ -253,8 +285,9 @@ const ArticleDetail = () => {
 
     {/* Pastikan ini berada dalam elemen flex yang sama untuk sejajar */}
     <p className="article-meta1">
-      - Dibaca: {article.views} Kali
+       Dibaca: {article.views} Kali
     </p>
+        
   </div>
 </div>
 
@@ -340,9 +373,9 @@ const ArticleDetail = () => {
                   <div className="popular-article-meta-info1">
                     <span className="popular-article-meta1">
                       {formatDate(relatedArticle.created_at)}
-                    </span> - 
+                    </span>    
                     <span className="popular-article-views1">
-                      Dibaca: {relatedArticle.views} Kali
+                        Dibaca: {relatedArticle.views} Kali
                     </span>
                   </div>
                 </div>

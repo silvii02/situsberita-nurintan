@@ -5,6 +5,7 @@ import configUrl from '../configUrl';
 import axios from 'axios';
 import CategoryDropdown from './CategoryDropdown';
 import UserDropdown from './UserDropdown';
+import AdsDisplay from './adsdisplay';
 import '../assets/css/style.css';
 
 const Header = () => {
@@ -73,6 +74,8 @@ const Header = () => {
   };
 
   return (
+    <div>
+<AdsDisplay position="header" /> 
     <div className="headerContainer">
       <div className="headerTop">
         <a href="https://www.situsintan.org">
@@ -139,6 +142,7 @@ const Header = () => {
 
       {isLoggedIn && showUserDropdown && <UserDropdown onLogout={handleLogout} />}
       {showCategoryDropdown && <CategoryDropdown />}
+    </div>
     </div>
   );
 };

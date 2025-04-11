@@ -1347,6 +1347,46 @@ button {
   align-items: center; /* Menyelaraskan secara vertikal */
   width: 100%; /* Pastikan lebar penuh */
 }
+/* untuk tombol Text-to-Speech */
+.tts-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1F316F; /* Warna biru khas */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 15px;
+  outline: none;
+  margin-left: auto; 
+}
+
+.tts-button:hover {
+  background-color: #0056b3;
+}
+
+.tts-button:active {
+  background-color: #003f80;
+}
+
+.tts-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.tts-button.speaking {
+  background-color: #dc3545; /* Warna merah saat membaca */
+}
+
+.tts-button.speaking:hover {
+  background-color: #a71d2a;
+}
 
 .article-meta1 {
   font-size: 14px;
@@ -2844,48 +2884,58 @@ form.contact {
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
-
-.categories-btn-edit:hover {
-  background-color: rgb(121, 115, 115);
-}
-
-.categories-btn-delete {
-  background-color: red;
-  color: white;
+.categories-btn-edit, .categories-btn-delete {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 
+.categories-btn-edit {
+  background-color: #1F316F;
+  color: white;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.categories-btn-edit:hover {
+  background-color: #324a94;
+}
+
+.categories-btn-delete {
+  background-color: #F5C647;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+
 .categories-btn-delete:hover {
-  background-color: darkred;
+  background-color: #e0b43f;
 }
 
 /* Kontainer untuk newCategory, input dan button */
 .categoryy-container {
+  justify-content: flex-end;
   display: flex; /* Menggunakan Flexbox */
-  justify-content: flex-end; /* Menggeser elemen ke kanan */
-  align-items: center; /* Menjaga elemen sejajar secara vertikal */
-  width: 50%; /* Pastikan lebar kontainer sama dengan tabel */
-  margin: 5px auto; /* Memberi jarak atas dan bawah */
-  margin-left: 39vh; /* Menggeser kontainer sedikit ke kanan */
 }
 
 
-.newCategory {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: block;
-}
-
-#newCategory {
-  width: 20px; /* Mengatur lebar input */
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px; /* Jarak antara input dan tombol */
-}
+/* .newCategory { */
+  /* font-size: 16px; */
+  /* font-weight: bold; */
+  /* margin-bottom: 8px; */
+  /* display: block; */
+/* } */
+/*  */
+/* #newCategory { */
+  /* width: 20px; Mengatur lebar input */
+  /* padding: 8px; */
+  /* font-size: 14px; */
+  /* border: 1px solid #ccc; */
+  /* border-radius: 4px; */
+  /* margin-right: 10px; Jarak antara input dan tombol */
+/* } */
 
 .button-create {
   background-color: #1F2E5D; /* Warna biru gelap */
@@ -2901,36 +2951,6 @@ form.contact {
   background-color: #15244a; /* Warna lebih gelap saat hover */
 }
 
-
-.editCategory {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: block;
-}
-
-input[type="text"] {
-  width: 220px;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px; /* Jarak antara input dan tombol */
-}
-
-.button-update {
-  background-color: #1F2E5D; /* Warna biru gelap */
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.button-update:hover {
-  background-color: #15244a; /* Warna lebih gelap saat hover */
-}
 
 
 .dashboard-container {
@@ -3166,7 +3186,7 @@ input[type="text"] {
 .dashboardlogo1 {
   width: 200px;
   height: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 20px;
 }
 
@@ -3185,7 +3205,7 @@ input[type="text"] {
 .menu-left ul li a {
   display: block;
   width: 100%;
-  padding: 15px;
+  padding: 13px;
   padding-left: 35px; /* Menambahkan jarak dari sisi kiri */
   text-decoration: none;
   font-size: 18px;
@@ -4035,10 +4055,19 @@ input[type="text"] {
 .export-btn:hover {
   background-color: #3e548a; 
 }
+.export-pdf-btn {
+  background-color: #F5C647;
+  color: black;
+}
+
+.export-pdf-btn:hover {
+  background-color: #e0b43f;
+}
+
 
 /* General Styles */
 .comments-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -4085,31 +4114,36 @@ input[type="text"] {
   gap: 5px;
 }
 
-.btn-edit-commentreport, .btn-delete-commentreport {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.btn-edit-commentreport, 
+.btn-delete-commentreport {
+    padding: 6px 12px; 
+    font-size: 14px; 
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 70px; 
+    text-align: center;
 }
 
 .btn-edit-commentreport {
-  background-color: #000000;
-  color: white;
-}
-
-.btn-edit-commentreport:hover {
-  background-color: #606661;
+    background-color: #007bff;
 }
 
 .btn-delete-commentreport {
-  background-color: #dc3545;
-  color: white;
+    background-color: #ff4d4d; 
+}
+
+.btn-edit-commentreport:hover {
+    background-color: #0056b3; 
 }
 
 .btn-delete-commentreport:hover {
-  background-color: #eb828d;
+    background-color: #d32f2f; 
 }
+
 
 /* Edit Form */
 /* Overlay untuk latar belakang gelap */
@@ -4295,6 +4329,452 @@ input[type="text"] {
 
 .create-adminn button:hover {
   background: #0056b3;
+}
+.notification-popup-comment {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 350px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Tambahan bayangan */
+}
+
+
+.close-icon {
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.close-icon:hover {
+  color: #ff4d4d;
+}
+
+.popup-list-comment {
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 10px;
+  list-style: none;
+  margin: 0;
+}
+
+.popup-list-comment::-webkit-scrollbar {
+  width: 5px;
+}
+
+.popup-list-comment::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 5px;
+}
+
+.popup-item-comment {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s ease-in-out;
+}
+
+.popup-item-comment strong {
+  color: #007bff;
+}
+
+.popup-item-comment:last-child {
+  border-bottom: none;
+}
+
+.popup-item-comment:hover {
+  background: #f8f9fa;
+}
+
+.see-all-btn-comment {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+  border-radius: 0 0 10px 10px;
+}
+
+.see-all-btn-comment:hover {
+  background: #0056b3;
+}
+
+/* Animasi Fade In */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.swal-simpan-btn {
+  background-color: #1F316F !important;
+  color: white !important;
+}
+
+.swal-batal-btn {
+  background-color: #F5C647 !important;
+  color: black !important;
+}
+
+.swal-simpan-btn:hover {
+  background-color: #324a94 !important; /* Biru lebih terang */
+}
+
+.swal-batal-btn:hover {
+  background-color: #e0b43f !important; /* Kuning keemasan lebih gelap */
+}
+
+.create-admin {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.create-admin h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.create-admin p {
+  color: #d9534f;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.create-admin form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-admin input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.create-admin input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.create-admin button {
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.create-admin button:hover {
+  background: #0056b3;
+}
+
+/* Responsif untuk tampilan HP */
+@media (max-width: 500px) {
+  .create-admin {
+      width: 90%;
+      padding: 15px;
+  }
+}
+
+.swal2-confirm.btn-category-confirm {
+  background-color: #1F316F !important;
+  color: white !important;
+}
+
+.swal2-cancel.btn-category-cancel {
+  background-color: #F5C647 !important;
+  color: black !important;
+}
+.swal2-confirm.btn-hapus1-confirm {
+  background-color: #1F316F !important;
+  color: white !important;
+}
+
+.swal2-cancel.btn-hapus2-cancel {
+  background-color: #F5C647 !important;
+  color: black !important;
+}
+
+.swal2-confirm.btn-dashboard1-confirm {
+  background-color: #1F316F !important;
+  color: white !important;
+}
+
+.swal2-cancel.btn-dashboard2-cancel {
+  background-color: #F5C647 !important;
+  color: black !important;
+}
+
+
+/* .admin-ads-container { */
+  /* width: calc(97% - 250px); */
+    /* margin-top: 85px; */
+    /* margin-left: 270px; */
+    /* padding: 20px; */
+    /* background-color: #ffffff; */
+    /* border-radius: 8px; */
+/* } */
+
+.admin-ads-form-container {
+  width: calc(97% - 250px);
+    margin-top: 85px;
+    margin-left: 270px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.admin-ads-form-container h2,
+.admin-ads-form-container p {
+    text-align: center;
+}
+
+.admin-ads-list-container {
+  width: calc(97% - 250px);
+    margin-top: 85px;
+    margin-left: 270px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Form Styling */
+.admin-ads-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.admin-ads-form input,
+.admin-ads-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.admin-ads-form button {
+  margin-top: 20px;
+  background-color: #1F316F;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-ads-form button:hover {
+  background-color: #005bb5;
+}
+
+/* Ad List Styling */
+.admin-ads-list {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-ads-list-item {
+  background: #fafafa;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  position: relative;
+}
+
+.admin-ads-list-item strong {
+  color: #0073e6;
+}
+
+.admin-ads-image {
+  width: 100px;
+  height: auto;
+  margin-top: 10px;
+}
+
+.admin-ads-delete-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-ads-delete-button:hover {
+  background-color: #cc0000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-ads-container {
+      flex-direction: column;
+  }
+}
+
+.ads-display-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.ads-display-card {
+  position: relative;
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.ads-display-icons {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  z-index: 10;
+}
+
+/* Icon Info */
+.ads-icon-info {
+  background: #fff;
+  border: 1px solid #00bcd4;
+  border-radius: 2px 0 0 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Icon Close */
+.ads-icon-close {
+  background: #fff;
+  border: 1px solid #00bcd4;
+  border-left: none; /* biar nyatu kayak kotak ganda */
+  border-radius: 0 2px 2px 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Hover efek biar interaktif */
+.ads-icon-info:hover,
+.ads-icon-close:hover {
+  background: #e0f7fa;
+}
+
+
+.ads-display-link {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.ads-display-image-container {
+  flex: 1;
+  max-width: 50%;
+}
+
+.ads-display-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ads-display-text-container {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ads-display-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ads-display-message {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.ads-display-brand {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.ads-display-button {
+  padding: 8px 12px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: start;
 }
 
 

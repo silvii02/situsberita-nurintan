@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import axiosInstance from '../utils/axios'; 
 import configUrl from '../configUrl';
-import { FaEdit, FaTrash } from 'react-icons/fa'; 
 import SidebarDashboard from '../components/SidebarDashboard'; 
 import Swal from 'sweetalert2'; 
 
@@ -20,7 +19,6 @@ const Categories = () => {
     const [editCategoryId, setEditCategoryId] = useState(null); // ID kategori yang sedang diedit
     const [editCategoryName, setEditCategoryName] = useState(''); // Nama kategori yang sedang diedit
 
-    // Fungsi untuk mengambil data kategori
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -40,15 +38,15 @@ const Categories = () => {
     const handleDelete = async (id) => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
+                confirmButton: "btn-hapus1-confirm",
+                cancelButton: "btn-hapus2-cancel"
             },
             buttonsStyling: false
         });
     
         swalWithBootstrapButtons.fire({
             title: "Apakah Anda yakin?",
-            text: "Anda tidak akan dapat mengembalikan ini!",
+            text: "Anda tidak akan dapat mengembalikan kategori ini!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Ya, hapus!",
@@ -68,15 +66,15 @@ const Categories = () => {
                     setCategories(categories.filter(category => category.id !== id));
     
                     swalWithBootstrapButtons.fire(
-                        "Deleted!",
-                        "Your category has been deleted.",
+                        "Terhapus!",
+                        "Kategori telah dihapus",
                         "success"
                     );
                 } catch (error) {
                     console.error('Error deleting category:', error.response?.data || error.message);
                     swalWithBootstrapButtons.fire(
                         "Error!",
-                        "Failed to delete the category.",
+                        "Gagal menghapus kategori.",
                         "error"
                     );
                 }
@@ -91,32 +89,86 @@ const Categories = () => {
     };
     
 
-    const addCategory = (e) => {
-        e.preventDefault();
-        if (newCategory.trim()) {
-          axios.post(`${configUrl.beBaseUrl}/api/createcategory`, { name: newCategory })
-            .then(response => {
-              console.log(response,'response category');
-              setCategories([...categories, response.data]);
-              setNewCategory('');
-            })
-            .catch(error => {
-              console.error('There was an error adding the new category!', error);
-            });
+    const addCategory = async () => {
+        const { value: categoryName } = await Swal.fire({
+            title: 'Tambah Kategori Baru',
+            input: 'text',
+            inputPlaceholder: 'Masukkan nama kategori',
+            showCancelButton: true,
+            confirmButtonText: 'Tambahkan',
+            cancelButtonText: 'Batalkan',
+            reverseButtons: true, // Menukar posisi tombol
+        customClass: {
+            confirmButton: 'btn-category-confirm',
+            cancelButton: 'btn-category-cancel'
+        },
+            inputValidator: (value) => {
+                if (!value.trim()) {
+                    return 'Nama kategori tidak boleh kosong';
+                }
+            }
+        });
+    
+        if (categoryName) {
+            try {
+                const response = await axios.post(`${configUrl.beBaseUrl}/api/createcategory`, { name: categoryName });
+                setCategories([...categories, response.data]);
+                Swal.fire('Berhasil!', 'Kategori berhasil ditambahkan.', 'success');
+            } catch (error) {
+                console.error('There was an error adding the new category!', error);
+                Swal.fire('Gagal!', 'Terjadi kesalahan saat menambahkan kategori.', 'error');
+            }
         }
-      };
-      const handleNewCategoryChange = (event) => {
-        setNewCategory(event.target.value);
-      };
+    };
+    //   const handleNewCategoryChange = (event) => {
+    //     setNewCategory(event.target.value);
+    //   };
 
     const handleEditCategoryChange = (event) => {
         setEditCategoryName(event.target.value);
     };
 
     const startEditCategory = (category) => {
-        setEditCategoryId(category.id);
-        setEditCategoryName(category.name);
+        Swal.fire({
+            title: 'Ubah Kategori',
+            input: 'text',
+            inputValue: category.name,
+            showCancelButton: true,
+            confirmButtonText: 'Simpan',
+            cancelButtonText: 'Batalkan',
+            preConfirm: (newName) => {
+                if (!newName.trim()) {
+                    Swal.showValidationMessage('Category name cannot be empty');
+                }
+                return newName;
+            },
+            customClass: {
+                confirmButton: 'swal-simpan-btn',
+                cancelButton: 'swal-batal-btn'
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed && result.value.trim()) {
+                try {
+                    const token = localStorage.getItem('token');
+                    const response = await axiosInstance.put(`/categories/${category.id}`,
+                        { name: result.value },
+                        {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }
+                    );
+                    setCategories(categories.map(cat => (cat.id === category.id ? response.data : cat)));
+                    Swal.fire('Diperbarui!', 'Kategori telah diperbarui', 'success');
+                } catch (error) {
+                    console.error('Error updating category:', error.response?.data || error.message);
+                    Swal.fire('Error!', 'Failed to update category.', 'error');
+                }
+            }
+        });
     };
+    
 
     const updateCategory = async (e) => {
         e.preventDefault();
@@ -158,28 +210,19 @@ const Categories = () => {
 
             <div className="dashboard-content">
                 <div className="categoryy-container">
-                    <label className='newCategory'>New Category</label>
-                    <input
-                        type="text"
-                        id="newCategory"
-                        name="newCategory"
-                        value={newCategory}
-                        onChange={handleNewCategoryChange}
-                        placeholder="Enter new category"
-                    />
-                    <button className='button-create' type="submit" onClick={addCategory}>Add Category</button>
+                <button className="button-create" onClick={addCategory}>Tambah Kategori</button>
                 </div>
 
                 {editCategoryId && ( // Form untuk edit kategori
                     <div className="categoryy-container">
-                        <label className='editCategory'>Edit Category</label>
+                        <label className='editCategory'>Ubah Kategori</label>
                         <input
                             type="text"
                             value={editCategoryName}
                             onChange={handleEditCategoryChange}
                             placeholder="Edit category"
                         />
-                        <button className='button-update' onClick={updateCategory}>Update Category</button>
+                        <button className='button-update' onClick={updateCategory}>Perbarui Kategori</button>
                     </div>
                 )}
 
@@ -187,8 +230,8 @@ const Categories = () => {
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Category Name</th>
-                            <th>Actions</th>
+                            <th>Nama Kategori</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -198,10 +241,10 @@ const Categories = () => {
                                 <td>{category.name}</td>
                                 <td>
                                     <button className="categories-btn-edit" onClick={() => startEditCategory(category)}>
-                                        <FaEdit />
+                                        Ubah
                                     </button>
                                     <button className="categories-btn-delete" onClick={() => handleDelete(category.id)}>
-                                        <FaTrash />
+                                        Hapus
                                     </button>
                                 </td>
                             </tr>

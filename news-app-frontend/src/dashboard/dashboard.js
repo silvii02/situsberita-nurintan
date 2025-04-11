@@ -52,12 +52,17 @@ const Dashboard = () => {
 
     Swal.fire({
       title: 'Apakah Anda yakin?',
-      text: "Data yang dihapus tidak dapat dikembalikan!",
+      text: "Artikel yang dihapus tidak dapat dikembalikan!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ya, hapus!',
-      cancelButtonText: 'Batal',
+      cancelButtonText: 'Tidak, batalkan!',
       reverseButtons: true,
+      customClass: {
+        confirmButton: 'btn-dashboard1-confirm',
+        cancelButton: 'btn-dashboard2-cancel'
+    },
+    buttonsStyling: false
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -176,22 +181,23 @@ const Dashboard = () => {
       <div className="dashboard">
         <h1>Dashboard Artikel</h1>
 
-      <div className="export-buttons">
-        <button className="export-btn" onClick={handleExportToExcel}>
-          <FaDownload style={{ marginRight: '5px' }} /> Download Excel
-        </button>
-        <button className="export-btn" onClick={handleExportToPDF}>
-          <FaPrint style={{ marginRight: '5px' }} /> Cetak PDF
-        </button>
-      </div>
+        <div className="export-buttons">
+          <button className="export-btn" onClick={handleExportToExcel}>
+            <FaDownload style={{ marginRight: '5px' }} /> Unduh Excel
+          </button>
+          <button className="export-btn export-pdf-btn" onClick={handleExportToPDF}>
+            <FaPrint style={{ marginRight: '5px' }} /> Cetak PDF
+          </button>
+        </div>
+
 
         <table>
           <thead>
             <tr>
               <th>NO</th>
-              <th>TITLE</th>
-              <th>DATE</th>
-              <th>ACTIONS</th>
+              <th>JUDUL</th>
+              <th>TANGGAL</th>
+              <th>AKSI</th>
             </tr>
           </thead>
           <tbody>

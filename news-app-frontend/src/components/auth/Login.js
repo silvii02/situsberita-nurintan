@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import configUrl from '../../configUrl';
+import Swal from 'sweetalert2';
 import GoogleLoginButton from '../GoogleLoginButton';
 
 
@@ -30,6 +31,14 @@ const Login = () => {
       } else {
         localStorage.removeItem('rememberMe');
       }
+
+      Swal.fire({
+        title: "Login Berhasil!",
+        icon: "success",
+        timer: 2000, // Notif akan hilang otomatis setelah 2 detik
+        showConfirmButton: false
+      });
+
       navigate('/indexdashboard');
     } catch (error) {
       if (error.response && error.response.data) {

@@ -6,6 +6,7 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import configUrl from '../configUrl';
+import { Link } from "react-router-dom";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -71,13 +72,14 @@ const Dashboard = () => {
       className: 'manage-article-carddd', 
       onClick: () => navigate('/dashboard') // Navigasi ke halaman manage artikel
     },
-    { 
-      icon: <FaUsers />, 
-      title: 'Users', 
-      count: 1, 
-      color: '#f9f9f9', 
-      className: 'users-carddd' 
-    },
+    {
+      icon: <FaUsers />,
+      title: 'Tambah Admin',
+      color: '#f9f9f9',
+      className: 'users-carddd',
+      onClick: () => navigate('/createadmin') 
+  }
+
   ];
 
   // Mengambil judul dan views dari 10 artikel teratas untuk chart
@@ -111,22 +113,36 @@ const Dashboard = () => {
     <div>
       {/* Kartu Dashboard */}
       <div className="dashboard-cards-container1">
-        {dataCards.map((item, index) => (
-          <div className={`dashboard-card1 ${item.className}`}
-          key={index} 
-          style={{ backgroundColor: item.color }}
-          onClick={item.onClick}
-          >
+    {dataCards.map((item, index) => (
+        <div 
+            key={index} 
+            className={`dashboard-card1 ${item.className}`} 
+            style={{ backgroundColor: item.color }} 
+            onClick={item.onClick}
+        >
             <div className="icon-container1">
-              {item.icon}
+                {item.icon}
             </div>
             <div className="card-content1">
-              <h3>{item.title}</h3>
-              <p>{item.count}</p>
+                {item.link ? (
+                    <Link to={item.link}>
+                        {/* <button>{item.title}</button> */}
+                    </Link>
+                ) : (
+                    <>
+                        <h3>{item.title}</h3>
+                        <p>{item.count}</p>
+                    </>
+                )}
             </div>
-          </div>
-        ))}
-      </div>
+        </div>
+    ))}
+</div>
+
+
+      
+
+
 
       {/* Chart Artikel Populer */}
       <div className="chart-container">

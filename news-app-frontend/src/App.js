@@ -35,6 +35,10 @@ import Categories from './components/Categories';
 import ShareButtons from './components/ShareButtons';
 import UserDropdown from './components/UserDropdown';
 import CommentsReport from './components/CommentsReport';
+import AdminAds from './dashboard/adminads';
+import AdsDisplay from './components/adsdisplay';
+import CreateAdmin from './dashboard/CreateAdmin';
+import DaftarIklan from './dashboard/DaftarIklan';
 import GoogleLoginButton from './components/GoogleLoginButton';
 import './App.css';
 
@@ -94,12 +98,15 @@ function App() {
           <Route path="/sharebuttons" element={<ShareButtons />} /> 
           <Route path="/CommentsReport" element={<CommentsReport />} />
           <Route path="/UserDropdown" element={<UserDropdown />} /> 
+          <Route path="/AdminAds" element={<AdminAds />} /> 
+          <Route path="/AdsDisplay" element={<AdsDisplay />} /> 
+          <Route path="/DaftarIklan" element={<DaftarIklan />} /> 
 
         <Route element={<PrivateRoute />}>
         { <Route path="/create-article" element={<CreateArticle />} /> }
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/edit-article/:id" element={<EditArticle />} />
-        
+        <Route path="/Createadmin" element={<CreateAdmin />} /> 
         </Route>
         </Routes>
       </div>
