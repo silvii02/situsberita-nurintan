@@ -10,7 +10,7 @@ const PopularArticleList = () => {
   const [popularArticles, setPopularArticles] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 5;
+  const articlesPerPage = 6;
 
   useEffect(() => {
     axios.get(`${configUrl.beBaseUrl}/api/articlespop`)
@@ -37,6 +37,22 @@ const PopularArticleList = () => {
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = popularArticles.slice(indexOfFirstArticle, indexOfLastArticle);
+  const totalPages = Math.ceil(popularArticles.length / articlesPerPage);
+  const pageNumbers = [];
+
+  if (totalPages <= 5) {
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+  } else {
+    if (currentPage <= 3) {
+      pageNumbers.push(1, 2, 3, 4);
+    } else if (currentPage >= totalPages - 2) {
+      pageNumbers.push(totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pageNumbers.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+    }
+  }
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -75,39 +91,49 @@ const PopularArticleList = () => {
             </div>
           </div>
         ))}
-        <Pagination 
-          articlesPerPage={articlesPerPage} 
-          totalArticles={popularArticles.length} 
-          paginate={paginate} 
-          currentPage={currentPage}
-        />
-      </div>
+        <nav>
+          <div className="pagination">
+            {currentPage > 1 && (
+              <button onClick={() => paginate(currentPage - 1)} className="page-link">Previous</button>
+            )}
 
-      <Footer />
+            {totalPages > 5 && currentPage > 3 && (
+              <>
+                <button onClick={() => paginate(1)} className={`page-link ${currentPage === 1 ? 'active' : ''}`}>1</button>
+                <span>...</span>
+              </>
+            )}
+
+            {pageNumbers.map((number) => (
+              <button
+                key={number}
+                onClick={() => paginate(number)}
+                className={`page-link ${currentPage === number ? 'active' : ''}`}
+              >
+                {number}
+              </button>
+            ))}
+
+            {totalPages > 5 && currentPage < totalPages - 2 && (
+              <>
+                <span>...</span>
+                <button
+                  onClick={() => paginate(totalPages)}
+                  className={`page-link ${currentPage === totalPages ? 'active' : ''}`}
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
+
+            {currentPage < totalPages && (
+              <button onClick={() => paginate(currentPage + 1)} className="page-link">Next</button>
+            )}
+          </div>
+        </nav>
+
+      </div>
     </div>
   );
 };
-
-const Pagination = ({ articlesPerPage, totalArticles, paginate, currentPage }) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalArticles / articlesPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  return (
-    <nav>
-      <div className='pagination'>
-        {pageNumbers.map(number => (
-          <span key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-            <button onClick={() => paginate(number)} className='page-link'>
-              {number}
-            </button>
-          </span>
-        ))}
-      </div>
-    </nav>
-  );
-};
-
 export default PopularArticleList;

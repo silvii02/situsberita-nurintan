@@ -1,7 +1,11 @@
 import React from 'react';
+import AdsDisplay from './adsdisplay';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   return (
+    <div>
+      <AdsDisplay position="footer" /> 
     <footer style={styles.footer}>
       <div style={styles.container}>
        
@@ -10,6 +14,7 @@ const Footer = () => {
         <p>&copy; 2024 situsintan.org. All Rights Reserved</p>
       </div>
     </footer>
+    </div>
   );
 }
 

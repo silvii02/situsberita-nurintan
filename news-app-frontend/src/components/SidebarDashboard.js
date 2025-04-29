@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPen, faList, faTags, faEdit, faRightToBracket, faSignOutAlt, faBell, faTimes, faBullhorn, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faList, faTags, faEdit, faRightToBracket, faSignOutAlt, faBell, faTimes, faBullhorn, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import configUrl from '../configUrl';
 import '../assets/css/style.css';
 
 const SidebarDashboard = () => {
@@ -19,7 +21,7 @@ const SidebarDashboard = () => {
 
     const fetchUnreadComments = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/commentsreport/unread');
+            const response = await axios.get(`${configUrl.beBaseUrl}/api/commentsreport/unread`);
             setUnreadComments(response.data.length);
             setUnreadCommentList(response.data);
         } catch (error) {
@@ -28,23 +30,30 @@ const SidebarDashboard = () => {
     };
 
     const handleNotificationClick = async () => {
-        setShowPopup(!showPopup);
-        
-        if (showPopup === false) {
+        if (!showPopup) {
             try {
-                await axios.post('http://localhost:8000/api/commentsreport/mark-all-read');
+                await axios.post(`${configUrl.beBaseUrl}/api/commentsreport/mark-all-read`);
                 setUnreadComments(0);
-                fetchUnreadComments();
+                // Jangan panggil fetchUnreadComments() di sini
             } catch (error) {
                 console.error('Error marking comments as read:', error);
             }
         }
+    
+        setShowPopup(!showPopup); // Pindahkan ini ke akhir agar tidak conflict saat async jalan
     };
+    
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userid');
-        navigate('/');
+        Swal.fire({
+            title: "Berhasil Logout!",
+            icon: "success",
+            confirmButtonText: "OK"
+        }).then(() => {
+            navigate('/');
+        });
     };
 
     const toggleDropdown = () => {
@@ -62,11 +71,6 @@ const SidebarDashboard = () => {
                     <li className='sidebar-left'>
                         <Link to='/indexdashboard' className={location.pathname === '/indexdashboard' ? 'active' : ''}>
                             <FontAwesomeIcon icon={faHome} /> Dashboard
-                        </Link>
-                    </li>
-                    <li className='sidebar-left'>
-                        <Link to='/create-article' className={location.pathname === '/create-article' ? 'active' : ''}>
-                            <FontAwesomeIcon icon={faPen} /> Create Article
                         </Link>
                     </li>
                     <li className='sidebar-left'>

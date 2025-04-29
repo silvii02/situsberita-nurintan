@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch, FaUserCircle, FaBars, FaTimes, FaSignOutAlt } from 'react-icons/fa';
+import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import configUrl from '../configUrl';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import CategoryDropdown from './CategoryDropdown';
 import UserDropdown from './UserDropdown';
 import AdsDisplay from './adsdisplay';
@@ -53,7 +54,13 @@ const Header = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userid');
     setIsLoggedIn(false);
-    navigate('/'); // Pindah langsung ke halaman beranda
+    Swal.fire({
+      title: "Berhasil Logout!",
+      icon: "success",
+      confirmButtonText: "OK"
+    }).then(() => {
+      navigate('/'); // Pindah ke halaman beranda setelah notifikasi
+    });
   };
 
   const handleSearch = async (e) => {
@@ -110,11 +117,11 @@ const Header = () => {
               <FaSearch className="searchIcon" onClick={handleSearch} />
             </form>
           </div>
-          {isLoggedIn ? (
+          {/* {isLoggedIn ? (
             <FaSignOutAlt className="userIcon" title="Klik untuk melihat opsi" onClick={toggleUserDropdown} />
           ) : (
             <FaUserCircle className="userIcon" title="Klik untuk log in" onClick={() => navigate('/login')} />
-          )}
+          )} */}
           {showCategoryDropdown ? (
             <FaTimes className="menuIcon" onClick={toggleCategoryDropdown} />
           ) : (

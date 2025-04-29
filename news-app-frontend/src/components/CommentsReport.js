@@ -11,6 +11,8 @@ const CommentsReport = () => {
     const [comments, setComments] = useState([]);
     const [editComment, setEditComment] = useState(null);
     const [formData, setFormData] = useState({ name: '', body: '' });
+    const [currentPage, setCurrentPage] = useState(1);
+    const commentsPerPage = 10;
     
 
     useEffect(() => {
@@ -54,6 +56,7 @@ const CommentsReport = () => {
                         title: "Dihapus!",
                         text: "Komentar Anda telah dihapus.",
                         icon: "success"
+                        
                     });
                 } catch (error) {
                     console.error('Error deleting comment:', error);
@@ -98,11 +101,17 @@ const CommentsReport = () => {
             console.error('Error updating comment:', error);
         }
     };
+
+    // Pagination logic
+    const indexOfLastComment = currentPage * commentsPerPage;
+    const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+    const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     
 
     return (
         <div>
-        <button className="btn-back-dashboard" onClick={() => navigate('/dashboard')}>
+        <button className="btn-back-dashboard" onClick={() => navigate('/indexdashboard')}>
         <FontAwesomeIcon icon={faArrowLeft} style={{ marginRight: "8px" }} /> Kembali ke Halaman Dashboard
     </button>
             <div className="comments-container">
@@ -120,9 +129,10 @@ const CommentsReport = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {comments.map((comment, index) => (
-                            <tr key={comment.id} className="table-row-CommentReport">
-                                <td className="table-cell">{index + 1}</td>
+                    {currentComments.map((comment, index) => (
+    <tr key={comment.id} className="table-row-CommentReport">
+        <td className="table-cell">{indexOfFirstComment + index + 1}</td>
+
                                 <td className="table-cell">{comment.name}</td>
                                 
                                 <td className="table-cell">{comment.body}</td>
@@ -142,6 +152,13 @@ const CommentsReport = () => {
             ))}
         </tbody>
     </table>
+
+    <Pagination
+        itemsPerPage={commentsPerPage}
+        totalItems={comments.length}
+        paginate={paginate}
+        currentPage={currentPage}
+    />
 
     {editComment && (
     <div className="edit-comment-overlay" onClick={() => setEditComment(null)}>
@@ -190,6 +207,59 @@ const CommentsReport = () => {
 </div>
 </div>
 
+    );
+};
+
+const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pageNumbers = [];
+
+    if (totalPages <= 5) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        if (currentPage <= 3) {
+            pageNumbers.push(1, 2, 3, 4);
+        } else if (currentPage >= totalPages - 2) {
+            pageNumbers.push(totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+            pageNumbers.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+        }
+    }
+
+    return (
+        <nav>
+            <div className="pagination">
+                {currentPage > 1 && (
+                    <button onClick={() => paginate(currentPage - 1)} className="page-link">
+                        Previous
+                    </button>
+                )}
+                {totalPages > 5 && currentPage > 3 && (
+                    <>
+                        <button onClick={() => paginate(1)} className="page-link">1</button>
+                        <span>...</span>
+                    </>
+                )}
+                {pageNumbers.map(number => (
+                    <button key={number} onClick={() => paginate(number)} className={`page-link ${currentPage === number ? 'active' : ''}`}>
+                        {number}
+                    </button>
+                ))}
+                {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <>
+                        <span>...</span>
+                        <button onClick={() => paginate(totalPages)} className="page-link">{totalPages}</button>
+                    </>
+                )}
+                {currentPage < totalPages && (
+                    <button onClick={() => paginate(currentPage + 1)} className="page-link">
+                        Next
+                    </button>
+                )}
+            </div>
+        </nav>
     );
 };
 

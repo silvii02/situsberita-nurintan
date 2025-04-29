@@ -4,7 +4,7 @@
   background: none !important;
 }
 .navbar {
-  margin-top: 75px;
+  /* margin-top: 75px; */
   justify-content: center;
   align-items: center;
   background-color: #1F316F;
@@ -141,7 +141,7 @@ ul li {
   align-items: center;
   margin-left: 20px;
   max-height: 49px;
-  width: 65%;
+  width: 75%;
   max-width: 400px;
 }
 
@@ -281,7 +281,7 @@ ul li {
 
 .menu {
   position: fixed; /* Tetap fixed agar selalu muncul */
-  top: 51px; 
+  top: 56px; 
   right: 0;
   width: 350px; 
   background-color: white;
@@ -290,7 +290,7 @@ ul li {
   border-radius: 8px;
   z-index: 1000; /* Pastikan dropdown berada di atas elemen lain */
   overflow-y: auto; /* Tambahkan scroll jika konten lebih panjang dari tinggi */
-  max-height: 535px; /* Tinggi dropdown yang lebih kecil */
+  max-height: 575px; /* Tinggi dropdown yang lebih kecil */
 }
 
 
@@ -701,6 +701,7 @@ input#linkVidio {
 }
 
 /* dashboard artikel */
+
 .dashboard {
   width: calc(97% - 250px); /* Lebar dashboard dikurangi lebar sidebar */
   margin-top: 85px; /* Memberi jarak dari atas untuk menghindari overlap dengan header */
@@ -4040,6 +4041,7 @@ form.contact {
 /* excel */
 .export-buttons {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
@@ -4055,6 +4057,18 @@ form.contact {
 .export-btn:hover {
   background-color: #3e548a; 
 }
+.btn-create {
+  padding: 8px 12px;
+  background-color: #2a3d66; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background-color: #3e548a; 
+}
 .export-pdf-btn {
   background-color: #F5C647;
   color: black;
@@ -4063,7 +4077,39 @@ form.contact {
 .export-pdf-btn:hover {
   background-color: #e0b43f;
 }
+.dashboard-search {
+  display: flex;
+  align-items: center;
+}
 
+.dashboard-search input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-search {
+  padding: 6px 10px;
+  background-color: #2a3d66;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-search:hover {
+  background-color: #3e548a;
+}
+
+.article-judul-link {
+  color: black;
+  text-decoration: none;
+}
+
+.article-judul-link:hover {
+  text-decoration: underline; /* Opsional, jika ingin efek saat hover */
+  color: #333; /* Opsional, bisa diganti sesuai selera */
+}
 
 /* General Styles */
 .comments-container {
@@ -4494,7 +4540,7 @@ form.contact {
 }
 
 .create-admin button {
-  background: #007bff;
+  background: #1F316F;
   color: white;
   padding: 12px;
   font-size: 16px;
@@ -4579,7 +4625,6 @@ form.contact {
     border-radius: 8px;
 }
 
-/* Form Styling */
 .admin-ads-form label {
   display: block;
   font-weight: bold;
@@ -4611,7 +4656,6 @@ form.contact {
   background-color: #005bb5;
 }
 
-/* Ad List Styling */
 .admin-ads-list {
   list-style: none;
   padding: 0;
@@ -4635,146 +4679,328 @@ form.contact {
   height: auto;
   margin-top: 10px;
 }
+.admin-ads-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
 
-.admin-ads-delete-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: #ff4d4d;
+.admin-ads-edit-button, .admin-ads-delete-button {
+  background-color: #1F316F;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 12px;
   font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
+.admin-ads-edit-button:hover {
+  background-color: #005bb5;
+}
+
+.admin-ads-delete-button {
+  background-color: #ff4d4d;
+}
+
 .admin-ads-delete-button:hover {
   background-color: #cc0000;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .admin-ads-container {
-      flex-direction: column;
-  }
-}
-
 .ads-display-container {
+  margin-top: 90px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center; /* <-- tambahkan ini */
 }
-
-
-.ads-display-card {
-  position: relative;
-  display: flex;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  background: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-.ads-display-icons {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  display: flex;
-  z-index: 10;
-}
-
-/* Icon Info */
-.ads-icon-info {
-  background: #fff;
-  border: 1px solid #00bcd4;
-  border-radius: 2px 0 0 2px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-}
-
-/* Icon Close */
-.ads-icon-close {
-  background: #fff;
-  border: 1px solid #00bcd4;
-  border-left: none; /* biar nyatu kayak kotak ganda */
-  border-radius: 0 2px 2px 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-}
-
-/* Hover efek biar interaktif */
-.ads-icon-info:hover,
-.ads-icon-close:hover {
-  background: #e0f7fa;
-}
-
-
-.ads-display-link {
-  display: flex;
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
-.ads-display-image-container {
-  flex: 1;
-  max-width: 50%;
-}
-
-.ads-display-image {
+/* Modal Edit Iklan */
+.edit-iklan {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-iklan123 {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.edit-iklan123 h3 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.edit-iklan input[type="text"],
+.edit-iklan input[type="date"],
+.edit-iklan select,
+.edit-iklan input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-iklan input[type="text"]:focus,
+.edit-iklan input[type="date"]:focus,
+.edit-iklan select:focus,
+.edit-iklan input[type="file"]:focus {
+  border-color: #1F316F;
+  outline: none;
+}
+
+.edit-iklan .modal-actions {
+  display: flex;
+  justify-content: flex-end; /* Tombol berada di sebelah kanan */
+  gap: 10px; /* Menambahkan jarak antara tombol */
+}
+
+.edit-iklan .modal-actions button {
+  background-color: #1F316F;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-iklan .modal-actions button[type="button"] {
+  background-color: #F5C647;
+  color: black; /* Ubah warna teks untuk tombol Batal menjadi hitam */
+}
+
+.edit-iklan .modal-actions button:hover {
+  background-color: #142C5C;
+}
+
+.edit-iklan .modal-actions button[type="button"]:hover {
+  background-color: #F5A03D;
+}
+
+/* Background Overlay */
+.edit-iklan123 {
+  max-width: 600px;
+  margin: 0 15px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the Cancel Button */
+.swal-cancel-button321 {
+  background-color: #F5C647;
+  border-radius: 5px;
+  padding: 8px 16px;
+  color: #000;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.swal-cancel-button321:hover {
+  background-color: #F5A03D;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .edit-iklan123 {
+      width: 90%;
+      max-width: 400px;
+  }
+
+  .edit-iklan123 h3 {
+      font-size: 1.3rem;
+  }
+
+  .edit-iklan input,
+  .edit-iklan select {
+      font-size: 0.9rem;
+  }
+
+  .edit-iklan .modal-actions button {
+      padding: 8px 16px;
+  }
+}
+.image12-preview-container {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 100px;
+  border-radius: 8px;
+  margin-top: 10px;
   object-fit: cover;
 }
 
-.ads-display-text-container {
-  flex: 1;
-  padding: 16px;
+/* iklan yang tampil didepan */
+.ads-wrapper {
+  display: flex;
+  justify-content: center; /* Tengah secara horizontal */
+  flex-direction: column;  /* Tetap vertikal untuk daftar iklan */
+  align-items: center;     /* Biar semua iklan center */
+  padding: 10px;
+  margin-top: 75px;
+}
+
+.ads-card {
+  position: relative;
+  display: flex;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+  max-width: 800px; /* Ubah dari 600px jadi lebih lebar */
+  width: 100%;      /* Biar bisa responsif di bawah max-width */
+}
+
+
+.ads-icon-buttons {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+}
+
+.ads-info-button,
+.ads-close-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 2px; /* tambah dikit biar lebih rapih */
+}
+
+.ads-info-button:hover,
+.ads-close-button:hover {
+  color: #0071c2;
+}
+
+
+.ads-content {
+  display: flex;
+  width: 100%;
+}
+
+.ads-image img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.ads-text {
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.ads-display-title {
+.ads-title {
   font-size: 18px;
+  margin-bottom: 6px;
   font-weight: bold;
-  margin-bottom: 8px;
 }
 
-.ads-display-message {
+.ads-description {
   font-size: 14px;
-  color: #555;
+  color: #666;
   margin-bottom: 12px;
 }
 
-.ads-display-brand {
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 12px;
-}
-
-.ads-display-button {
-  padding: 8px 12px;
-  background: #007BFF;
-  color: #fff;
-  border: none;
+.ads-button {
+  display: inline-block;
+  padding: 6px 14px;
+  background-color: #0071c2;
+  color: white;
   border-radius: 4px;
-  cursor: pointer;
-  align-self: start;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  width: fit-content;
+}
+.ads-button:hover {
+  background-color: #005b9e;
+}
+
+/* info iklan */
+
+.info-iklan-container {
+  padding: 24px;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.info-iklan-card {
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.info-iklan-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.info-iklan-card-text {
+  margin-bottom: 16px;
+}
+
+
+
+.info-iklan-harga {
+  margin-top: 16px;
+}
+
+.info-iklan-harga p {
+  margin: 4px 0;
+}
+
+.info-iklan-harga span {
+  font-weight: bold;
+}
+
+.info-iklan-harga a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.info-iklan-harga a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .info-iklan-container {
+    padding: 16px;
+  }
+
+  .info-iklan-card {
+    padding: 16px;
+  }
 }
 
 

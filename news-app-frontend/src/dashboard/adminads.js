@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SidebarDashboard from '../components/SidebarDashboard';
+import Swal from 'sweetalert2';
+import configUrl from "../configUrl";
 
 const AdminAds = () => {
     const [ads, setAds] = useState([]);
     const [advertiserName, setAdvertiserName] = useState("");
-    const [adMessage, setAdMessage] = useState(""); // Tambahkan state untuk pesan iklan
+    const [adMessage, setAdMessage] = useState("");
     const [image, setImage] = useState(null);
     const [link, setLink] = useState("");
     const [position, setPosition] = useState("sidebar");
@@ -12,7 +14,7 @@ const AdminAds = () => {
     const [endDate, setEndDate] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/ads")
+        fetch(`${configUrl.beBaseUrl}/api/ads`)
             .then((res) => res.json())
             .then((data) => setAds(data))
             .catch((err) => console.error("Error fetching ads:", err));
@@ -26,33 +28,53 @@ const AdminAds = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("advertiser_name", advertiserName);
-        formData.append("ad_message", adMessage); // Tambahkan ke formData
+        formData.append("ad_message", adMessage);
         formData.append("image", image);
         formData.append("link", link);
         formData.append("position", position);
         formData.append("start_date", startDate);
         formData.append("end_date", endDate);
 
-        const response = await fetch("http://localhost:8000/api/ads", {
-            method: "POST",
-            body: formData,
-        });
-
-        if (response.ok) {
-            alert("Iklan berhasil ditambahkan!");
-            window.location.reload();
-        } else {
-            alert("Gagal menambahkan iklan");
-        }
-    };
-
-    const handleDelete = async (id) => {
-        if (window.confirm("Yakin ingin menghapus iklan ini?")) {
-            await fetch(`http://localhost:8000/api/ads/${id}`, {
-                method: "DELETE",
+        try {
+            const response = await fetch(`${configUrl.beBaseUrl}/api/ads`, {
+                method: "POST",
+                body: formData,
             });
-            alert("Iklan berhasil dihapus");
-            setAds(ads.filter((ad) => ad.id !== id));
+
+            if (response.ok) {
+                const newAd = await response.json(); // pastikan backend mengembalikan data iklan baru
+
+                // Tambahkan iklan baru ke dalam list tanpa reload
+                setAds((prevAds) => [...prevAds, newAd]);
+
+                Swal.fire({
+                    title: "Iklan berhasil ditambahkan!",
+                    icon: "success",
+                    confirmButtonColor: "#1F316F",
+                    draggable: true
+                });
+
+                // Reset form input
+                setAdvertiserName("");
+                setAdMessage("");
+                setImage(null);
+                setLink("");
+                setPosition("sidebar");
+                setStartDate("");
+                setEndDate("");
+            } else {
+                Swal.fire({
+                    title: "Gagal menambahkan iklan",
+                    icon: "error"
+                });
+            }
+        } catch (error) {
+            console.error("Error saat menambahkan iklan:", error);
+            Swal.fire({
+                title: "Terjadi kesalahan",
+                text: "Silakan coba lagi nanti.",
+                icon: "error"
+            });
         }
     };
 
@@ -83,9 +105,8 @@ const AdminAds = () => {
                     <label>Posisi Iklan</label>
                     <select value={position} onChange={(e) => setPosition(e.target.value)}>
                         <option value="header">Header</option>
-                        <option value="sidebar">Sidebar</option>
                         <option value="footer">Footer</option>
-                        <option value="inside_article">Inside Article</option>
+                        <option value="sidebar">Sidebar</option>
                     </select>
 
                     <div className="admin-ads-date-container">

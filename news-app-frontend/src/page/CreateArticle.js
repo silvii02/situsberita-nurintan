@@ -153,7 +153,8 @@ const sanitizeHTML = (input) => {
         title: 'Sukses!',
         text: 'Artikel berhasil disimpan!',
         icon: 'success',
-        confirmButtonText: 'OKE'
+        confirmButtonText: 'OKE',
+        confirmButtonColor: '#1F316F'
       }).then(() => navigate('/dashboard'));
     })
     .catch(error => {

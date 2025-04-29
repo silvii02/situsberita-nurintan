@@ -25,6 +25,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import ArtikelBawah from './components/googleTrend';
 import SearchResults from '../src/page/SearchResults';
 import PedomanMedia from '../src/page/PedomanMedia';
+import InfoIklan from '../src/page/InfoIklan';
 import TopTags from './components/TopTagsArtikel';
 import TagArticlesPage from '../src/page/TagArticlesPage';
 import TermsOfUse from '../src/page/TermsOfUse';
@@ -101,6 +102,7 @@ function App() {
           <Route path="/AdminAds" element={<AdminAds />} /> 
           <Route path="/AdsDisplay" element={<AdsDisplay />} /> 
           <Route path="/DaftarIklan" element={<DaftarIklan />} /> 
+          <Route path="/infoiklan" element={<InfoIklan />} /> 
 
         <Route element={<PrivateRoute />}>
         { <Route path="/create-article" element={<CreateArticle />} /> }

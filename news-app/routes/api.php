@@ -86,6 +86,7 @@ Route::get('/articleSlider', [SliderHeadlineController::class, 'getSliderArticle
 Route::get('categories', function() {
     return Category::all(); 
 });
+Route::put('/ads/{id}', [AdController::class, 'update']);
 Route::get('/ads', [AdController::class, 'index']);
 Route::post('/ads', [AdController::class, 'store']);
 Route::delete('/ads/{id}', [AdController::class, 'destroy']);

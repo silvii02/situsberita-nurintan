@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import axiosInstance from '../utils/axios'; 
+import axiosInstance from '../utils/axios';
 import configUrl from '../configUrl';
-import SidebarDashboard from '../components/SidebarDashboard'; 
-import Swal from 'sweetalert2'; 
+import SidebarDashboard from '../components/SidebarDashboard';
+import Swal from 'sweetalert2';
 
 const Categories = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const categoriesPerPage = 7; 
+    const categoriesPerPage = 9;
+
     const indexOfLastCategory = currentPage * categoriesPerPage;
     const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
     const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
-    const [newCategory, setNewCategory] = useState('');
-    const [editCategoryId, setEditCategoryId] = useState(null); // ID kategori yang sedang diedit
-    const [editCategoryName, setEditCategoryName] = useState(''); // Nama kategori yang sedang diedit
+
+    const [editCategoryId, setEditCategoryId] = useState(null);
+    const [editCategoryName, setEditCategoryName] = useState('');
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -43,7 +44,7 @@ const Categories = () => {
             },
             buttonsStyling: false
         });
-    
+
         swalWithBootstrapButtons.fire({
             title: "Apakah Anda yakin?",
             text: "Anda tidak akan dapat mengembalikan kategori ini!",
@@ -55,16 +56,16 @@ const Categories = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const token = localStorage.getItem('token'); // Ambil token dari local storage
+                    const token = localStorage.getItem('token');
                     await axiosInstance.delete(`/categories/${id}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         },
                     });
-    
+
                     setCategories(categories.filter(category => category.id !== id));
-    
+
                     swalWithBootstrapButtons.fire(
                         "Terhapus!",
                         "Kategori telah dihapus",
@@ -87,7 +88,6 @@ const Categories = () => {
             }
         });
     };
-    
 
     const addCategory = async () => {
         const { value: categoryName } = await Swal.fire({
@@ -97,18 +97,18 @@ const Categories = () => {
             showCancelButton: true,
             confirmButtonText: 'Tambahkan',
             cancelButtonText: 'Batalkan',
-            reverseButtons: true, // Menukar posisi tombol
-        customClass: {
-            confirmButton: 'btn-category-confirm',
-            cancelButton: 'btn-category-cancel'
-        },
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'btn-category-confirm',
+                cancelButton: 'btn-category-cancel'
+            },
             inputValidator: (value) => {
                 if (!value.trim()) {
                     return 'Nama kategori tidak boleh kosong';
                 }
             }
         });
-    
+
         if (categoryName) {
             try {
                 const response = await axios.post(`${configUrl.beBaseUrl}/api/createcategory`, { name: categoryName });
@@ -120,9 +120,6 @@ const Categories = () => {
             }
         }
     };
-    //   const handleNewCategoryChange = (event) => {
-    //     setNewCategory(event.target.value);
-    //   };
 
     const handleEditCategoryChange = (event) => {
         setEditCategoryName(event.target.value);
@@ -168,23 +165,22 @@ const Categories = () => {
             }
         });
     };
-    
 
     const updateCategory = async (e) => {
         e.preventDefault();
         if (editCategoryName.trim()) {
             try {
-                const token = localStorage.getItem('token'); // Ambil token dari local storage
-                const response = await axiosInstance.put(`/categories/${editCategoryId}`, 
+                const token = localStorage.getItem('token');
+                const response = await axiosInstance.put(`/categories/${editCategoryId}`,
                     { name: editCategoryName },
                     {
                         headers: {
-                            'Authorization': `Bearer ${token}`, // Sertakan token di header
+                            'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         },
                     }
                 );
-    
+
                 setCategories(categories.map(category => (category.id === editCategoryId ? response.data : category)));
                 setEditCategoryId(null);
                 setEditCategoryName('');
@@ -200,7 +196,6 @@ const Categories = () => {
             }
         }
     };
-    
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -210,10 +205,10 @@ const Categories = () => {
 
             <div className="dashboard-content">
                 <div className="categoryy-container">
-                <button className="button-create" onClick={addCategory}>Tambah Kategori</button>
+                    <button className="button-create" onClick={addCategory}>Tambah Kategori</button>
                 </div>
 
-                {editCategoryId && ( // Form untuk edit kategori
+                {editCategoryId && (
                     <div className="categoryy-container">
                         <label className='editCategory'>Ubah Kategori</label>
                         <input
@@ -240,21 +235,18 @@ const Categories = () => {
                                 <td>{indexOfFirstCategory + index + 1}</td>
                                 <td>{category.name}</td>
                                 <td>
-                                    <button className="categories-btn-edit" onClick={() => startEditCategory(category)}>
-                                        Ubah
-                                    </button>
-                                    <button className="categories-btn-delete" onClick={() => handleDelete(category.id)}>
-                                        Hapus
-                                    </button>
+                                    <button className="categories-btn-edit" onClick={() => startEditCategory(category)}>Ubah</button>
+                                    <button className="categories-btn-delete" onClick={() => handleDelete(category.id)}>Hapus</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <Pagination 
-                    categoriesPerPage={categoriesPerPage} 
-                    totalCategories={categories.length} 
-                    paginate={paginate} 
+
+                <Pagination
+                    articlesPerPage={categoriesPerPage}
+                    totalArticles={categories.length}
+                    paginate={paginate}
                     currentPage={currentPage}
                 />
             </div>
@@ -262,22 +254,59 @@ const Categories = () => {
     );
 };
 
-// Komponen Pagination
-const Pagination = ({ categoriesPerPage, totalCategories, paginate, currentPage }) => {
+const Pagination = ({ articlesPerPage, totalArticles, paginate, currentPage }) => {
+    const totalPages = Math.ceil(totalArticles / articlesPerPage);
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalCategories / categoriesPerPage); i++) {
-        pageNumbers.push(i);
+
+    if (totalPages <= 5) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        if (currentPage <= 3) {
+            pageNumbers.push(1, 2, 3, 4);
+        } else if (currentPage >= totalPages - 2) {
+            pageNumbers.push(totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+            pageNumbers.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+        }
     }
+
     return (
         <nav>
             <div className="pagination">
-                {pageNumbers.map(number => (
-                    <span key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                        <button onClick={() => paginate(number)} className="page-link">
-                            {number}
-                        </button>
-                    </span>
+                {currentPage > 1 && (
+                    <button onClick={() => paginate(currentPage - 1)} className="page-link">Previous</button>
+                )}
+                {totalPages > 5 && currentPage > 3 && (
+                    <>
+                        <button onClick={() => paginate(1)} className={`page-link ${currentPage === 1 ? 'active' : ''}`}>1</button>
+                        <span>...</span>
+                    </>
+                )}
+                {pageNumbers.map((number) => (
+                    <button
+                        key={number}
+                        onClick={() => paginate(number)}
+                        className={`page-link ${currentPage === number ? 'active' : ''}`}
+                    >
+                        {number}
+                    </button>
                 ))}
+                {totalPages > 5 && currentPage < totalPages - 2 && (
+                    <>
+                        <span>...</span>
+                        <button
+                            onClick={() => paginate(totalPages)}
+                            className={`page-link ${currentPage === totalPages ? 'active' : ''}`}
+                        >
+                            {totalPages}
+                        </button>
+                    </>
+                )}
+                {currentPage < totalPages && (
+                    <button onClick={() => paginate(currentPage + 1)} className="page-link">Next</button>
+                )}
             </div>
         </nav>
     );

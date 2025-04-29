@@ -12,7 +12,7 @@ const Comments = ({ articleId }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/comments/${articleId}`);
+            const response = await axios.get(`${configUrl.beBaseUrl}/api/comments/${articleId}`);
             setComments(response.data);
         } catch (error) {
             console.error("Error fetching comments:", error);
@@ -27,7 +27,7 @@ const Comments = ({ articleId }) => {
     const handleDelete = async (id) => {
         if (window.confirm("Apakah Anda yakin ingin menghapus komentar ini?")) {
             try {
-                await axios.delete(`http://localhost:8000/api/comments/${id}`);
+                await axios.delete(`${configUrl.beBaseUrl}/api/comments/${id}`);
                 fetchComments();
             } catch (error) {
                 console.error("Error deleting comment:", error);
@@ -39,9 +39,9 @@ const Comments = ({ articleId }) => {
         e.preventDefault();
         try {
             if (editingId) {
-                await axios.put(`http://localhost:8000/api/comments/${editingId}`, formData);
+                await axios.put(`${configUrl.beBaseUrl}/api/comments/${editingId}`, formData);
             } else {
-                await axios.post("http://localhost:8000/api/comments", { ...formData, article_id: articleId });
+                await axios.post(`${configUrl.beBaseUrl}/api/comments`, { ...formData, article_id: articleId });
             }
             setEditingId(null);
             setFormData({ name: "", email: "", body: "" });
